@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <a id="dowmImg">下载图片，禁止预览</a>
+  <script type="text/javaScript" src="../js/img2DataUrl.js"></script>
+  <script type="text/javaScript">
+    const imgToBase64 = new ImgToDataUrl();
+    console.log(imgToBase64);
+    const image = new Image();
+    image.src = '../img/bee.jpg?'+ new Date().getTime();
+    image.onload = function(){
+      const imgUrl = imgToBase64.imgToDataUrl(image);
+      const downBtn = document.getElementById('dowmImg');
+      downBtn.setAttribute('href', imgUrl);
+      downBtn.setAttribute("download", '大黄蜂');
+      downBtn.addEventListener('click', function(){
+        console.log('不再预览');
+      })
+    }
+  </script>
+</body>
+</html>
