@@ -6,19 +6,26 @@
 </head>
 <body>
   <a id="dowmImg">下载图片，禁止预览</a>
+  <a id="blobImg">下载blob图片，禁止预览</a>
   <script type="text/javaScript" src="../js/img2DataUrl.js"></script>
   <script type="text/javaScript">
-    const imgToBase64 = new ImgToDataUrl();
-    console.log(imgToBase64);
+    const imgToBase64 = new ImgToUrl();
     const image = new Image();
     image.src = '../img/bee.jpg?'+ new Date().getTime();
     image.onload = function(){
       const imgUrl = imgToBase64.imgToDataUrl(image);
-      const downBtn = document.getElementById('dowmImg');
-      downBtn.setAttribute('href', imgUrl);
-      downBtn.setAttribute("download", '大黄蜂');
-      downBtn.addEventListener('click', function(){
+      const dataBtn = document.getElementById('dowmImg');
+      const blobBtn = document.getElementById('blobImg');
+      dataBtn.setAttribute('href', imgUrl);
+      dataBtn.setAttribute("download", '大黄蜂');
+      dataBtn.addEventListener('click', function(){
         console.log('不再预览');
+      });
+      let imgData = imgToBase64.dataToBlob(imgUrl);
+      blobBtn.setAttribute('href', URL.createObjectURL(imgData));
+      blobBtn.setAttribute("download", 'bumble bee');
+      blobBtn.addEventListener('click', ()=>{
+        console.log('blob下载');
       })
     }
   </script>
