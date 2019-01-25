@@ -3,11 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <style type="text/css">
+    #locationBtn{
+      background-color: #0a6cd6;
+      border: none;
+
+    }
+  </style>
 </head>
 <body>
-  <a id="dowmImg">下载图片，禁止预览</a>
-  <a id="blobImg">下载blob图片，禁止预览</a>
+  <a id="dowmImg">下载图片，禁止预览</a><br>
+  <a id="blobImg">下载blob图片，禁止预览</a><br>
+  <button id="locationBtn">location下载</button>
   <script type="text/javaScript" src="../js/img2DataUrl.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.slim.js"></script>
   <script type="text/javaScript">
     const imgToBase64 = new ImgToUrl();
     const image = new Image();
@@ -26,6 +35,11 @@
       blobBtn.setAttribute("download", 'bumble bee');
       blobBtn.addEventListener('click', ()=>{
         console.log('blob下载');
+      })
+      // location 下载
+      $('#locationBtn').on("click", ()=>{
+        window.location.href = URL.createObjectURL(imgData);
+        console.log('location下载');
       })
     }
   </script>

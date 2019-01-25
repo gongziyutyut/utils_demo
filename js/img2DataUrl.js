@@ -4,6 +4,7 @@
 
   }
   ImgToUrl.prototype = {
+    // 适用于图片等类型
     imgToDataUrl: function(img){
       const canvas = document.createElement('canvas');
       canvas.width = img.width;
@@ -14,6 +15,7 @@
       const dataUrl = canvas.toDataURL('/image' + mime);
       return dataUrl;
     },
+    // 适用于文本.txt，.json等文件类型
     dataToBlob: function(dataUrl){
       let arr = dataUrl.split(','),   // dataUrl：data:image/png;base64,XXXXX...
           mime = arr[0].match(/:(.*?);/)[1],  // data:image/png;base64.match(最多一个：XXXX;)方法类似 indexOf() 和 lastIndexOf()，但是它返回指定的值
@@ -24,7 +26,11 @@
         unit8Array[n] = bStr.charCodeAt(n); // 返回对应字符的unicode码
       }
       return new Blob([unit8Array], {type: mime}); // 语法var aBlob = new Blob( array, options );
+    },
+    // location下载(仍然会预览)
+    locationDown: function(href){
+      window.location.href = href;
     }
-  }
+  };
   win.ImgToUrl = ImgToUrl;
 })(window);
