@@ -3,7 +3,9 @@
   function ImgToUrl(){
 
   }
+
   ImgToUrl.prototype = {
+
     // 适用于图片等类型
     imgToDataUrl: function(img){
       const canvas = document.createElement('canvas');
@@ -15,6 +17,7 @@
       const dataUrl = canvas.toDataURL('/image' + mime);
       return dataUrl;
     },
+
     // 适用于文本.txt，.json等文件类型
     dataToBlob: function(dataUrl){
       let arr = dataUrl.split(','),   // dataUrl：data:image/png;base64,XXXXX...
@@ -27,10 +30,48 @@
       }
       return new Blob([unit8Array], {type: mime}); // 语法var aBlob = new Blob( array, options );
     },
+
     // location下载(仍然会预览)
     locationDown: function(href){
       window.location.href = href;
-    }
+    },
+
+    //  iframe 无闪下载
+    iframeDownload: function(url){
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      function iframeLoad(){
+        const win = iframe.contentWindow;
+        const doc = win.document;
+        if(win.location.href == url){
+          if(doc.body.childrenNodes.length > 0){
+            console.log('error');
+          }
+          iframe.parentNode.removeChild(iframe);
+        }
+      }
+      if('onload' in iframe){
+        iframe.onload = iframeLoad;
+      }else if(iframe.attachEvent){
+        iframe.attachEvent('load', iframeLoad)
+      }else{
+        iframe.onreadystatechange = function onreadystatechange(){
+          if(iframe.state === 'complete'){
+            console.log('over');
+            iframeLoad
+          }
+        }
+      }
+      iframe.src = '';
+      document.body.appendChild(iframe);
+      setTimeout(function loadUrl(){
+        iframe.src = url;
+        iframe.download= '11';
+        // iframe.contentWindow.location.href = url;
+      }, 50)
+    },
+
+
   };
   win.ImgToUrl = ImgToUrl;
 })(window);

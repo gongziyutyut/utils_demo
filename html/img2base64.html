@@ -7,14 +7,25 @@
     #locationBtn{
       background-color: #0a6cd6;
       border: none;
-
+      cursor: pointer;
+      color: white;
+    }
+    .iframeBtn{
+      background-color: #0a6cd6;
+      border: none;
+      cursor: pointer;
+      color: white;
     }
   </style>
 </head>
 <body>
-  <a id="dowmImg">下载图片，禁止预览</a><br>
-  <a id="blobImg">下载blob图片，禁止预览</a><br>
+  <a id="dowmImg">下载图片，禁止预览</a>
+  <br>
+  <a id="blobImg">下载blob图片，禁止预览</a>
+  <br>
   <button id="locationBtn">location下载</button>
+  <br>
+  <button class="iframeBtn">iframe下载方式</button>
   <script type="text/javaScript" src="../js/img2DataUrl.js"></script>
   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.slim.js"></script>
   <script type="text/javaScript">
@@ -40,6 +51,10 @@
       $('#locationBtn').on("click", ()=>{
         window.location.href = URL.createObjectURL(imgData);
         console.log('location下载');
+      })
+     // iframe 下载
+      $('.iframeBtn').on('click', ()=>{
+        imgToBase64.iframeDownload('../img/bee.jpg?'+ new Date().getTime());
       })
     }
   </script>
