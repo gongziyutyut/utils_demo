@@ -1,0 +1,12 @@
+//$i: 6;
+@for  $i from 1 to 10 {
+  .border-#{$i} {
+    border: #{$i}px solid hotpink;
+  }
+}
+.header{
+  span{
+    color: red;
+    font-size: 13px;
+  }
+}
