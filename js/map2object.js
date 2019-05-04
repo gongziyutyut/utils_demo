@@ -1,6 +1,7 @@
 // map转换为object
 
 let map = new Map([['a', 5], ['b', 6], ['c', 7]]);
+console.log(map);
 
 function map2object (map) {
   let obj = {};

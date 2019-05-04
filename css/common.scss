@@ -1,0 +1,249 @@
+/*
+  用于项目中公共样式部分
+  在main.js中可以引入此内容（引入的是css文件）
+*/
+
+// 通用标签样式设置
+html, body, div, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 14px;
+  font: inherit;
+  vertical-align: baseline;
+  text-decoration: none;
+  color: #262628;
+}
+/* HTML5 display-role reset for older browsers （H5新标签的样式设置）*/
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul ,li{
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+html,body{
+  height: 100%;
+}
+body.el-loading-parent--hidden{  // element-ui中遮罩的样式设置
+  overflow: auto!important;
+}
+
+body .el-table th.gutter{
+  display: table-cell!important;  // 设置为块级表格元素（与display: table-cell一起可实现多行文字垂直居中）
+}
+
+body .el-table colgroup.gutter{
+  display: table-cell!important;
+}
+// 常用样式的设置
+.text-left{ text-align: left!important; }
+.text-center{ text-align: center!important; }
+.text-right{ text-align: right!important; }
+.fl{ float: left!important; }
+.fr{ float: right!important; }
+.pa{ position: absolute; }
+.pv{ position: relative; }
+.block{display: block!important;}
+.inline-block{display: inline-block!important;}
+.hidden{ display:none!important; }
+.hiddenImp{ display:none!important; }
+.hiddenImportant{ display:none !important; }
+.not-border{ border:  none !important; }
+.not-bottom-border{ border-bottom:  none !important; }
+.not-right-border{ border-right:  none !important; }
+.not-padding-bottom{ padding-bottom: 0 !important; }
+.overflowHidden {overflow: hidden!important;}
+.clear:after{display:block;clear:both;content:"";visibility:hidden;height:0 }
+.clear {zoom: 1; }
+.red{color: #FF7043!important;}
+.blue{color: #50ADEE!important;}
+.skyblue{color: #62C7E1!important;}
+.green{color: #98C268!important;}
+.orange{color: #F09237!important;}
+.violet{color: #7C9FEE!important;}/*紫色*/
+.gray{color: #D3D3D3!important;}/*灰色*/
+.bg-gray{ background-color:#F8F8F8;}
+.white{color: #FFFFFF!important;}
+.normal-color{color:#0883E4}
+.width60{width:60px!important;}
+.width80{width:80px!important;}
+.width90{width:90px!important;}
+.width100{width:100px!important;}
+.width104{width:104px!important;}
+.width112{width:112px!important;}
+.width120{width:120px!important;}
+.width140{width:140px!important;}
+.width150{width:150px!important;}
+.width160{width:160px!important;}
+.width180{width:180px!important;}
+.width190{width:190px!important;}
+.width200{width:200px!important;}
+.width210{width:200px!important;}
+.width250{width:250px!important;}
+.width260{width:260px!important;}
+.width254{width:254px!important;}
+.width160{width:160px!important;}
+.width190{width:190px!important;}
+.width380{width: 380px!important;}
+.width540{width:540px!important;}
+.width560{width:560px!important;}
+.height17{height: 17px!important;}
+.height20{height: 20px!important;line-height: 20px!important;}
+.height28{height: 28px!important;line-height: 28px!important;}
+.height30{height: 30px!important;line-height: 30px!important;}
+.height34{height: 34px!important;line-height: 34px!important;}
+.height38{height: 38px!important;line-height: 38px!important;}
+.height90{height: 90px!important;line-height: 90px!important;}
+.heightInherit {height:inherit!important;}
+.margin0{margin: 0 !important;}
+.margin5{margin: 5px !important;}
+.margin10{margin: 10px !important;}
+.margin010{margin: 0 10px !important;}
+.marginTop0{margin-top: 0px !important;}
+.marginTop5{margin-top: 5px !important;}
+.marginTop8{margin-top: 8px !important;}
+.marginTop10{margin-top: 10px !important;}
+.marginTop15{margin-top: 15px !important;}
+.marginTop20{margin-top: 20px !important;}
+.marginTop30{margin-top: 30px !important;}
+.marginTop40{margin-top: 40px !important;}
+.marginLeft5{margin-left: 5px!important;}
+.marginLeft10{margin-left: 10px!important;}
+.marginLeft15{margin-left: 15px!important;}
+.marginLeft50{margin-left: 50px!important;}
+.marginLeft104{margin-left: 104px!important;}
+.marginLeft112{margin-left: 112px!important;}
+.marginRight0{margin-right: 0px!important;}
+.marginRight5{margin-right: 5px!important;}
+.marginRight10{margin-right: 10px!important;}
+.marginRight15{margin-right: 15px!important;}
+.marginRight20{margin-right: 20px!important;}
+.marginRight45{margin-right: 45px!important;}
+.marginRight50{margin-right: 50px!important;}
+.marginRight72{margin-right: 72px!important;}
+.marginBottom10{margin-bottom: 10px!important;}
+.marginBottom5{margin-bottom: 5px!important;}
+.marginBottom0 {margin-bottom:0px!important;}
+.padding0{padding: 0!important;}
+.padding5{padding: 5px!important;}
+.padding010{padding: 0 10px!important;}
+.padding015{padding: 0 15px!important;}
+.padding020{padding: 0 20px!important;}
+.padding20{padding: 20px!important;}
+.padding10{padding: 10px!important;}
+.padding15{padding: 15px!important;}
+.padding1535{padding: 15px 35px!important;}
+.paddingTop0{padding-top: 0!important;}
+.paddingTop15{padding-top: 15px!important;}
+.paddingBottom0{padding-bottom: 0!important;}
+.paddingBottom10{padding-bottom: 10px!important;}
+.paddingLeft10{padding-left: 10px!important;}
+.paddingLeft15{padding-left: 15px!important;}
+.paddingR0{padding-right: 0px!important;}
+.paddingR15{padding-right: 15px!important;}
+.paddingR20{padding-right: 20px!important;}
+.minHeight60{min-height: 60px!important;}
+.maxWidth260{max-width: 260px!important;}
+.fs10{font-size: 10px!important;}
+.fs12{font-size: 12px!important;}
+.fs13{font-size: 13px!important;}
+.fs14{font-size: 14px!important;}
+.fs16{font-size: 16px!important;}
+.fs20{font-size: 20px!important;}
+.fw600{font-weight: 600;}
+.hover{}
+// 文字内容超出时以省略号显示
+.textOverflow1{overflow: hidden;text-overflow: ellipsis; white-space: nowrap;}
+
+/* 按钮 */
+.search-btn,
+.reset-btn {
+  padding: 0;
+  border: none;
+  width: 70px;
+  height: 25px;
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  display:inline-block;
+  text-align:center;
+  line-height:23px;
+  box-sizing:border-box;
+  border: 1px solid #3a80ec;
+  transition:all 0.5s ease;
+  &:last-child{margin-right:0 !important;}
+}
+.search-btn:hover,.reset-btn:hover,.el-button--warning:hover,.byBtn:hover,.refuseBtn:hover{opacity: 0.7; transition:all 0.5s ease;}
+.reset-btn:hover{background: #E0ECFF!important;}
+/* 搜索按钮 */
+.search-btn {
+  margin-right: 5px;
+  background: rgba(58, 128, 236, 1);
+  color: rgba(255, 255, 255, 1);
+}
+
+/* 重置按钮 */
+.reset-btn {
+  background: #fff;
+  border: 1px solid rgba(58, 128, 236, 1);
+  color: rgba(58, 128, 236, 1);
+}
+
+/* 通过拒绝按钮 */
+.byBtn,.refuseBtn {
+  background:rgba(255,255,255,1);
+  box-shadow:0px 3px 5px 0px rgba(189,189,189,0.5);
+  border:1px solid rgba(229,229,229,1);
+  color: #fff;
+  font-family:PingFangSC-Regular;
+  padding: 0;
+  border: none;
+  width: 70px;
+  height: 25px;
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  display:inline-block;
+  text-align:center;
+  line-height:23px;
+  box-sizing:border-box;
+  transition:all 0.5s ease;
+}
+/* 拒绝按钮 */
+.byBtn {
+  background:rgba(152,194,104,1);
+}
+/* 拒绝按钮 */
+.refuseBtn {
+  background:rgba(241,155,72,1);
+}

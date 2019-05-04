@@ -96,7 +96,38 @@ console.log([1,3,0,4,5,2,2,1,10,4,6,8,6].sort());
 * 将待排序序列的第一个元素看作有序序列
 * 把第二个元素到最后一个元素当作无序序列
 * 从头到尾依次扫描无序区
-* 将扫描的元素插入到有序的适当位置
+* 将扫描的元素插入到有序的适当位置,直到结束
+* 如果待插入元素与有序数列中元素相等，则置于其后
+*
+* */
+function insertSort(arr) {
+  let len = arr.length,
+    preIndex, currentVal;
+  for (let i = 1; i < len; i++) {
+    preIndex = i-1;
+    currentVal = arr[i];
+    while(preIndex>=0 && arr[preIndex] > currentVal) {
+      arr[preIndex + 1] = arr[preIndex];
+      preIndex--;  // 在此处将下标值-1
+  }
+    arr[preIndex + 1] = currentVal; // 此处下标值增加，若进入上面循环则替换了值，否则不变
+
+  }
+  return arr
+}
+console.log(insertSort([1,0,10,4,6,2,8,3,5]));
+/*
+* 优化思路：
+* 使用二分法——插入时，通过二分法减少查找次数
+* 链表：将有序数组转化为链表结构——插入的时间复杂度为O（1），查找复杂度为O（n）
+* 排序二叉树（BST）：
+*   将有序数组部分转化为排序二叉树
+*   中序遍历该二叉树
+*   可以方便插入，但需要占用额外空间
+* 二分查找法：
+* 在有序数组中查找某一特定元素
+* 搜索过程从数组中间开始，若刚好是需要元素，停止！
+* 若不是，则与之比较然后在在大于（或者小于）
 *
 * */
 
