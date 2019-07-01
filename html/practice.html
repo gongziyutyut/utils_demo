@@ -6,8 +6,24 @@
 </head>
 <body>
 <script>
-  console.log('1234545');
-  console.log('1234545'.replace('.', ''));
+  let length = 10;
+  let obj = {
+    x: function() {
+      console.log(this);
+    }
+  }
+  obj.x()
+  /*let fn1 = function() {console.log(this, this.length)};
+  let fn2 = function() {
+    console.log(this, this.length)
+  }
+  function fn3() {
+    console.log(this.length)
+  }*/
+  /*let arr = [fn1, fn2];
+
+  arr[0]();
+  arr[1]()*/
 </script>
 </body>
 </html>

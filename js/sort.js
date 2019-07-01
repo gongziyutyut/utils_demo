@@ -19,8 +19,8 @@ function swap(arr, x, y) {
 
 function bubbleSort(arr) {
   let len = arr.length;
-  for (let i = 0; i < len; i++) {
-    for (let j = 0; j < len; j++) {
+  for (let i = 0; i < len; i++) {  
+    for (let j = 0; j < len-i; j++) { 
       if(arr[j]>arr[j+1]){
         swap(arr, j, j+1)
       }

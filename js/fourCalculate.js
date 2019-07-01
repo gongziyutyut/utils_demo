@@ -25,8 +25,8 @@ function times(arg1,arg2) {
 function divide(arg1,arg2){
   var t1=0,t2=0,r1,r2;
   try{t1=arg1.toString().split(".")[1].length}catch(e){}
-  try{t2=arg2.toString().split(".")[1].length}catch(e){}
-  r1=Number(arg1.toString().replace(".",""))
-  r2=Number(arg2.toString().replace(".",""))
-  return Vue.prototype.$accMul((r1/r2),Math.pow(10,t2-t1));
+  try{t2=arg2.toString().split(".")[1].length}catch(e){}   // t1,t2 分别为参数的数量级
+  r1=Number(arg1.toString().replace(".","")) 
+  r2=Number(arg2.toString().replace(".","")) // 将两个参数的小数点去掉
+  return times((r1/r2),Math.pow(10,t2-t1)); // 使用除法就是乘法的变种！！！使用乘法法则——A/B，再乘以数量级的商
 }

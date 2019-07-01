@@ -1,0 +1,14 @@
+@mixin tringleMixin($direction) {
+  background-color: inherit;
+  border: inherit;
+  clip-path: (0 0, 100% 100%, 0 100%);
+  @if($direction == left) {
+    transform: rotate(45deg)
+  } @else if($direction == right) {
+    transform: rotate(-135deg)
+  } @else if($direction == down) {
+    transform: rotate(-45deg)
+  } @else {
+    transform: rotate(135deg)
+  }
+}
