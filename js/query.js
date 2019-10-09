@@ -117,7 +117,6 @@
    Query.extend({
     attr: function () {
       let arg = arguments
-
     }
   })
 })(window)
