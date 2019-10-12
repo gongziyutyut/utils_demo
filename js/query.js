@@ -42,7 +42,7 @@
     target = arguments[0],
     j;
     if (i === len) {
-      target = this
+      target = this // 就近原则this指向Query.fn
       i--
     }
     // 将参数对象合并到target
@@ -83,8 +83,8 @@
       })
     }
   })
-  // 设置css
-  Query.extend({
+  // 设置css，此时扩展时只有Query的类上具有此方法
+  Query.fn.extend({
     css: function () {
       let arg = arguments,
       len = arg.length;
@@ -114,9 +114,30 @@
     }
   })
    // 设置属性
-   Query.extend({
+   Query.fn.extend({
     attr: function () {
-      let arg = arguments
+      let arg = arguments,
+      len = arg.length
+      if (len < 1) {
+        return this
+      }
+      if (len === 1) {
+        if (typeof arg[0] === 'string') {
+          return this[0].getAttribute(arg[0])
+        } else if (typeof arg[0] === 'object') {
+          for (let key in arg[0]) {
+            for (let j = this.length; j >= 0; j--) {
+              this[j].setAttribute(key, arg[0][key])
+            } 
+          }
+        }
+      } else if (len === 2) {
+        for (let j = this.length; j >= 0; j--) {
+          this[j].setAttribute(arg[0], arg[1])
+        }
+      }
     }
   })
+  window.Query = Query
+  Query.fn.prototype = Query.fn
 })(window)

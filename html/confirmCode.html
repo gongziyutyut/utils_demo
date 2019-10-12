@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Demo</title>
+<style>
+#app{
+  margin: 0 auto;
+  width: 375px;
+  background: aqua;
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <canvas class="canvasDom"></canvas>
+</div>
+</body>
+<script type= "text/javascript">
+  function Gcode (el, option) {
+    this.el = typeof el === 'string' ? document.querySelector(el) : el
+    this.option = option
+    this.init(option)
+  }
+
+  Gcode.prototype = {
+    constructor: Gcode,
+    init: function (option) {
+      if (this.el.getContext) {
+        let supportCanvas = true,
+        paint = this.el.getContext('2d'),
+        viewW = this.el.width = option.width || 200,
+        viewH = this.el.height = option.height || 40,
+        textLen = this.option.textLen || 4,
+        lineNum = this.option.lineNum || 4
+        let text = this.randomText(textLen)
+        this.onClick(paint, textLen, lineNum, viewW, viewH)
+        this.drawLine(paint, lineNum, viewW, viewH)
+        this.drawText(paint, text, viewH)
+      }
+    },
+
+    // 绘制线条（位置随机，颜色随机）
+    drawLine: function (paint, lineNum, maxW, maxH) {
+      paint.clearRect(0, 0, maxW, maxH)
+      for (let i = 0; i < lineNum; i++) {
+        let x1 = Math.random() * maxW,
+        y1 = Math.random() * maxH,
+        x2 = Math.random() * maxW,
+        y2 = Math.random() * maxH
+        paint.stokeStyle = `rgb(${255 * Math.random()}, ${255 * Math.random()}, ${255 * Math.random()})`
+        paint.beginPath()
+        paint.moveTo(x1, y1)
+        paint.lineTo(x2, y2)
+        paint.stroke()
+      }
+    },
+
+    // 随机生成不重复的文字
+    generateUniqueText : function (source, hasList, limit) {
+      let text = source[Math.floor(Math.random() * limit)]
+      if (hasList.indexOf(text) > -1) {
+        return this.generateUniqueText(source, hasList, limit)
+      } else {
+        return text
+      }
+    },
+
+    // 需要生成的字母
+    randomText: function (len) {
+      let result = [],
+      source = []
+      for (let i = 65; i <= 90; i++) {
+        source.push(String.fromCharCode(i))
+      }
+      for (let j = 97; j <= 122; j++) {
+        source.push(String.fromCharCode(j))
+      }
+      let sourceLen = source.length
+      for (let i = 0; i < len; i++) {
+        let text = this.generateUniqueText(source, result, sourceLen)
+        result.push(text)
+      }
+      return result.join('')
+    },
+
+    // 用canvas绘制文字
+    drawText: function (paint, text, maxH,  maxW) {
+      let len = text.length
+      for (let i = 0; i < len; i++) {
+        let x = 30 * Math.random() + 30 * i, // 此处为确定文字的坐标位置
+        y = Math.random() * 5 + maxH/2;
+        paint.fillStyle = `rgb(${255 * Math.random()}, ${255 * Math.random()}, ${255 * Math.random()})`
+        paint.font = '30px Helvetica'
+        paint.textBaseLine = 'middle'
+        paint.fillText(text[i], x, y)
+      }
+    },
+    // 初始化和canvas的点击
+    onClick: function (paint, textLen, lineNum, viewW, viewH) {
+      let _this = this
+      this.el.addEventListener('click', function () {
+        let text = _this.randomText(textLen)
+        console.log(text)
+        _this.drawLine(paint, lineNum, viewW, viewH)
+        _this.drawText(paint, text, viewH)
+        
+      }, false)
+    }
+ 
+  }
+  new Gcode('.canvasDom', {
+    lineNum: 6,  // 可选
+    textLen: 4,  // 可选
+    width: 200,  // 可选
+    height: 40   // 可选
+  })
+</script>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<title>Demo</title>
+<style>
+html, body {
+  height: 100%;
+}
+#app {
+  width: 375px;
+  height: 90%;
+  margin: 0 auto;
+  background: #eeeeee;
+  position: relative;
+}
+.container {
+  height: 85%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.footer{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  position: absolute;
+  bottom: 20px;
+}
+.btn-group{
+  width: inherit;
+  text-align: center;
+}
+.btn {
+  display: inline-block;
+  outline: none;
+  border: none;
+  width: 80%;
+  height: 25px;
+  background-color: deepskyblue;
+  color: #fff;
+  cursor: pointer;
+}
+.imgStyle {
+  width: 25%;
+  height: 25%;
+  float: left
+}
+.imgStyle:first-child{
+  background: url('../../img/bee.jpg') 0 0 no-repeat;
+}
+</style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <img class="imgStyle" v-for="(item, index) in 16" :key="index">
+    </div>
+    <div class="footer">
+      <div class="btn-group">
+        <button class="btn">重新排序</button>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.slim.js"></script>
+<script type= "text/javascript">
+  window.onload = function () {
+    new Vue({
+      data() {
+        return {
+
+        }
+      },
+      methods: {
+
+      }
+
+    })
+    let conDom = $('.container')
+    // 生成canvas（将一张图片重新绘制，绘制成9份）
+    generateCanvasImg () 
+    function generateCanvasImg () {
+      let canvas = document.createElement('canvas')
+      if (canvas.getContext) {
+        debugger
+        let viewW = 0.8*conDom.width(),
+        viewH = 0.8*conDom.height(),
+        paint = canvas.getContext('2d')
+        canvas.width = 0.8*viewW
+        canvas.height = 0.8*viewH
+        // 绘制背景色
+        let linearStyle = paint.createLinearGradient(0, 0, 0, viewH)
+        linearStyle.addColorStop(0, '#a1c4fd')
+        linearStyle.addColorStop(0, '#c2e9fb')
+        paint.fillStyle = linearStyle
+        paint.fillRect(0, 0, 0.8*viewW, viewH)
+        paint.fill()
+        // 绘制图片
+        let imgH = 0,
+        img = new Image()
+        img.src = '../../img/bee.jpg'
+        img.onload = function () {
+          imgH = 0.6 * viewW*this.height/this.width
+          paint.drawImage(img, 0.2*viewW, 0.1*viewH, 0.6*viewW, imgH)
+          let data = canvas.toDataURL()
+          console.log(data)
+          //let content = paint.getImageData(0, 0, 0.25*viewW, 0.25*viewH)
+
+        }
+
+
+
+      }
+      conDom.append(canvas)
+    }
+  }
+</script>
+</html>
