@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Demo</title>
+<style rel='stylesheet' type="text/css">
+  #app {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: 20px;
+    border: 1px dashed #ececec;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  #app::after {
+    content: '+';
+    font-size: 30px;
+    color: #ececec;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  
+</div>
+</body>
+<script type= "text/javascript">
+  (function (win, doc) {
+    function uploadFile (option) {
+      let defaultOption = {
+        el: '#app',
+        accept: '*',
+        className: 'upload-wrap',
+        beforeUpload: function (e) { console.log(e) },
+        onProgress: function (e) { console.log(e) },
+        onload: function (e) { console.log(e) },
+        onError: function (e) { console.log(e) },
+      }
+      // 获取dom
+      if (option.el) {
+        option.el = typeof option.el === 'string' ? document.querySelector(option.el) : option.el
+      }
+      this.option = minix(defaultOption, option)
+      this.value = ''
+      this.init()
+    }
+    uploadFile.prototype = {
+      constructor: uploadFile,
+      init: function () {
+        this.render()
+        this.watch()
+      },
+      render: function () {
+        let fragment = document.createDocumentFragment(),
+        file = document.createElement('input'),
+        imgBox = document.createElement('div')
+        file.type = 'file'
+        file.accept = this.option.accept || '*'
+        file.className = 'upload-file'
+        imgBox.className = 'upload-img'
+        fragment.appendChild(file)
+        fragment.appendChild(imgBox)
+        // 给包裹组件设置类名
+        this.option.el.className = this.option.className
+        this.option.el.appendChild(fragment)
+      },
+      // 监听组件上传过程
+      watch: function () {
+        let ipt = this.option.el.querySelector('.upload-file'),
+        _this = this
+        ipt.addEventListener('change', function (event) {
+          let file = ipt.files[0]
+          _this.value = file
+          fileReader = new FileReader()
+          fileReader.onloadstart = function (evt) {
+            if (_this.option.accept !== '*' && _this.option.accept.indexOf(file.type.toLowerCase()) < 0) {
+              fileReader.abort()
+              _this.option.beforeUpload(file, evt)
+              console.log('文件格式有误', file.type.toLowerCase())
+            }
+          }
+          // 读取完成后触发的事件
+          fileReader.onload = function (evt) {
+            let imgBox = _this.option.el.querySelector('upload-img')
+            if (isImage(file.type)) {
+              imgBox.innerHTMl = ''
+              imgBox.style.backgroundImage = `url('${fileReader.result}')`
+            } else {
+              imgBox.innerHTMl = fileReader.result
+            }
+            imgBox.title = file.name
+            _this.option.onload(evt)
+          }
+          // 文件读取错误时
+          fileReader.onerror = function (evt) {
+            _this.option.onError(evt)
+          }
+
+          // 文件读取进度
+          fileReader.onprogress = function (evt) {
+            _this.option.onProgress(evt)
+          }
+
+          isImage(file.type) ? fileReader.readAsDataURL(file) : fileReader.readAsText(file)
+         }, false)
+      },
+
+      // 清除组件和ipt的值，支持链式调用
+      clearFile () {
+        this.option.el.querySelector('upload-file').value = ''
+        this.value = ''
+        return this
+      }
+    }
+
+    // 判断图片的类型
+    function isImage (type) {
+      let reg = /(image\/jpeg|image\/jpg|image\/gif|image\/png)/gi
+    }
+
+    // 简单的混合对象
+    function minix (source, target) {
+      for (let key in target) {
+        source[key] = target[key]
+      }
+      return source
+    }
+    window.uploadFile = uploadFile
+
+  })(window)
+  new uploadFile({
+        el: '#app', // 不填则直接默认挂在body上
+        accept: 'image/png', // 可选
+        className: 'upload-wrap', // 可选
+        beforeUpload: function(e) { console.log(e) }, // 可选
+        onProgress: function(e) { console.log(e) }, // 可选
+        onLoad: function(e) { console.log(e) }, // 可选
+        onError: function(e) { console.error('文件读取错误', e) } // 可选
+    })
+</script>
+</html>

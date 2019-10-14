@@ -78,6 +78,9 @@
       for (let j = 97; j <= 122; j++) {
         source.push(String.fromCharCode(j))
       }
+      for (let k = 0; k <= 9; k++) {
+        source.push(k)
+      }
       let sourceLen = source.length
       for (let i = 0; i < len; i++) {
         let text = this.generateUniqueText(source, result, sourceLen)
