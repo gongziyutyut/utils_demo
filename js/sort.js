@@ -37,7 +37,7 @@ function bubbleSort1(arr) {
   let len = arr.length;
   for (let i = len-1; i >= 0; i--) {
      for(let j=0; j<i; j++){
-       if(arr[j]>arr[j+1]){
+       if(arr[j]>arr[j+1]){   // 之所以每次减少一次是因为，必然每一次将最大值放在最后
          swap(arr, j, j+1)
        }
      }
