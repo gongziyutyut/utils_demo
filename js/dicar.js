@@ -11,16 +11,5 @@ function cartesian (...arr) {
     })
     return res 
   })
-  /* return [].reduce.call(arr, function (col, set) {
-    let res = [];
-    col.forEach(item => {
-      set.forEach(sItem => {
-        let t = [].concat(Array.isArray(item) ? item : [item])
-        t.push(sItem)
-        res.push(t);
-      })
-    })
-    return res 
-  }) */
 }
 console.log(cartesian([1, 2, 3], ['a', 'b']))
