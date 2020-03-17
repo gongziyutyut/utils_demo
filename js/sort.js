@@ -132,6 +132,141 @@ console.log(insertSort([1,0,10,4,6,2,8,3,5]));
 * */
 
 
+/**
+ * 给定 mArr长度个数组，从这些数组中取 n 个项，每个数组最多取一项，求所有的可能集合，其中，mArr的每个项的值代表这个数组的长度
+ * 例如 composeMArrN(([1, 2, 3], 2))，表示给定了 3 个数组，第一个数组长度为 1，第二个数组长度为 2，第二个数组长度为 3，从这三个数组任意取两个数
+ * example： composeMArrN(([1, 2, 3], 2))，返回：
+ * [[0,0,-1],[0,1,-1],[0,-1,0],[0,-1,1],[0,-1,2],[-1,0,0],[-1,0,1],[-1,0,2],[-1,1,0],[-1,1,1],[-1,1,2]]
+ * 返回的数组长度为 11，表示有1 种取法，数组中每个子数组就是一个取值组合，子数组中的数据项就表示取值的规则
+ * 例如，对于上述结果的第一个子数组 [0, 0, -1] 来说，表示第一种取法是 取第一个数组下标为 0 和 第二个数组下标为 0 的数，下标为 2 的数组项值为 -1 表示第三个数组不取任何数
+ * @param mArr 数据源信息
+ * @param n 取数的个数
+ * @param arr 递归使用，外部调用不需要传此项
+ * @param hasSeletedArr 递归使用，外部调用不需要传此项
+ * @param rootArr 递归使用，外部调用不需要传此项
+ */
+function composeMArrN (mArr, n, arr = [], hasSeletedArr = [], rootArr = []) {
+  if (!n || n < 1 || mArr.length < n) {
+    return arr
+  }
+  for (let i = 0; i < mArr.length; i++) {
+    // 当前层级已经存在选中项了
+    if (hasSeletedArr.includes(i)) continue
+    hasSeletedArr = hasSeletedArr.slice()
+    hasSeletedArr.push(i)
+    for (let j = 0; j < mArr[i]; j++) {
+      let arr1 = completeArr(arr, i - arr.length, -1)
+      arr1.push(j)
+      if (n === 1) {
+        arr1 = completeArr(arr1, mArr.length - arr1.length, -1)
+        rootArr.push(arr1)
+      } else {
+        composeMArrN(mArr, n - 1, arr1, hasSeletedArr, rootArr)
+      }
+    }
+  }
+  return rootArr
+}
+
+/**
+ * 给定 mArr长度个数组，从这些数组中取 n 个项，每个数组最多取一项，求所有的可能集合，其中，mArr的每个项的值代表这个数组的长度
+ * 例如 composeMArrN(([1, 2, 3], 2))，表示给定了 3 个数组，第一个数组长度为 1，第二个数组长度为 2，第二个数组长度为 3，从这三个数组任意取两个数
+ * example： composeMArrN(([1, 2, 3], 2))，返回：
+ * [[0,0,-1],[0,1,-1],[0,-1,0],[0,-1,1],[0,-1,2],[-1,0,0],[-1,0,1],[-1,0,2],[-1,1,0],[-1,1,1],[-1,1,2]]
+ * 返回的数组长度为 11，表示有1 种取法，数组中每个子数组就是一个取值组合，子数组中的数据项就表示取值的规则
+ * 例如，对于上述结果的第一个子数组 [0, 0, -1] 来说，表示第一种取法是 取第一个数组下标为 0 和 第二个数组下标为 0 的数，下标为 2 的数组项值为 -1 表示第三个数组不取任何数
+ * @param mArr 数据源信息
+ * @param n 取数的个数
+ * @param arr 递归使用，外部调用不需要传此项
+ * @param seletedArr 递归使用，外部调用不需要传此项
+ * @param rootArr 递归使用，外部调用不需要传此项
+ */
+
+function composeArr (mArr, n, arr=[], seletedArr=[], rootArr) {
+    if (!n || n > mArr.length) return
+    for (let i = 0; i < mArr.length; i++) {
+      seletedArr = seletedArr.slice()
+      if (seletedArr.includes(i)) continue
+      seletedArr.push(i)
+      for (let j = 0; j < mArr[i]; j++) {
+        let arr1 = arr.slice()
+        arr1 = completeArr(arr1, i - arr1.length, -1)
+        if (n === 1) {
+          arr1 = completeArr(arr1, mArr.length - arr1.length, -1)
+          rootArr.push()
+        } else {
+          composeArr(mArr, n-1, arr1, seletedArr, rootArr)
+        }
+      }
+   }
+   return rootArr
+}
+
+// 为arr中添加m个n
+function completeArr (arr, m, n) {
+  let arr1 = arr.slice()
+  for (let i = 0; i < m; i++) {
+    arr1.push(n)
+  }
+  return arr1
+}
+
+/* 
+  从一个数组中查询另一个数组，如果有，那就将其取出
+  用来数组查重(前提，两个数组进行了升序排列，否则会遗漏掉数组元素)
+  即：两个数组，求取其中交集
+  优化版本：多个数组求取交集
+
+*/
+
+function queryArrCoincidence (arr1, arr2, rootArr = []) {
+  if (!arr1.length || !arr2.length) return []
+  let i =0, j = 0
+  while (i < arr1.length && j < arr2.length) {
+    if (arr1[i] < arr2[j]) {
+      i++
+    } else if (arr1[i] > arr2[j]) {
+      j++
+    } else {
+      rootArr.push(arr1[i])
+      i++
+      j++
+    }
+  }
+  return rootArr
+}
+
+/* 
+  优化版本：
+  当传入多个数组的时候，也可以取出多个数组的交集
+
+*/
+
+function strongQueryArr (...params) {
+  if (!params || !params.length) return []
+  if (params.length === 1) return params[0]
+  let arr1 = params[0]
+  let arr2 = params[1]
+  if (params.length > 2) {
+    // 不断递归，用后续的交集与最前的数组来取交集
+    return strongQueryArr(arr1, strongQueryArr(arr2, ...params.slice(2)))
+  }
+  let i =0, j = 0, rootArr = []
+  while(i < arr1.length && j < arr2.length) {
+    if (arr1[i] > arr2[j]) {
+      j++
+    } else if (arr1[i] < arr2[j]) {
+      i++
+    } else {
+      rootArr.push(arr1[i])
+      i++
+      j++
+    }
+  }
+  return rootArr
+}
+
+
 
 
 

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Demo</title>
+<style>
+  .lottery{
+    width: 500px;
+    margin: 0 auto;
+  }
+  header{
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    font-size: 32px;
+  }
+  #container {
+    background-color: #ECECEC;
+    width: 451px;
+    height: 451px;
+    margin: auto;
+    position: relative;
+  }
+  #container::after {
+    content: "";
+    height: 0;
+    visibility: hidden;
+    display: block;
+  }
+  #container>.item {
+    width: 149px;
+    height: 149px;
+    background-color: red;
+    margin-left: 1px;
+    margin-top: 1px;
+    float: left;
+    color: white;
+    font-size: 25px;
+    text-align: center;
+    line-height: 150px;
+  }
+  #container>.item.start{
+    color: yellow;
+    font-size: 30px;
+    cursor: pointer;
+  }
+  .slide {
+    width: 149px;
+    height: 149px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: indianred;
+    opacity: 0.3;
+  }
+</style>
+</head>
+<body>
+  <div class="lottery">
+    <header>抽奖</header>
+    <div id="container"></div>
+  </div>
+</body>
+<script type= "text/javascript">
+  window.onload = function () {
+    let wordList = ['我爱你', '你爱我', '我不爱你', '你爱我', '开始', '你爱我', '再见', '谢谢惠顾', '你爱我']
+    let conDom = document.querySelector("#container")
+    wordList.forEach((item, index) => {
+      var divDom = document.createElement('div')
+      divDom.textContent = item
+      divDom.className = "item"
+      if (index === 4) divDom.classList.add('start')
+      conDom.appendChild(divDom)
+    })
+    let slideDom = document.createElement('div')
+    slideDom.className = 'slide'
+    conDom.appendChild(slideDom)
+    let startDom = document.querySelector(".start")
+    /* 
+      增加防抖
+    */
+    let timer = null
+    function debounce (fn) {
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(function () {
+        fn.apply(this, arguments)
+      }, 300)
+    }
+    /* 
+      因为转圈数不定，所以不使用防抖
+    */
+    let flag = false
+    startDom.addEventListener('click', function () {
+     /*  debounce(() => {
+        moveSlider(slideDom, generateArr(3, 150), 3, 300, 0)
+      }) */
+      if (flag) return
+      flag = true
+      moveSlider(slideDom, generateArr(3, 150), 3, 300, 0)
+    })
+   
+    function generateArr (n, cell) {
+      let arr = []
+      for (let i = 0; i < n; i++) {
+        arr.push([cell*i, 0])
+      }
+      for (let i = 0; i < n -1; i++) {
+        arr.push([(n-1) * cell, cell*(i+1)])
+      }
+      for (let i = n-1; i > 0; i--) {
+        arr.push([cell*(i-1), (n-1) * cell])
+      }
+      for (let i = n-2; i > 0; i--) {
+        arr.push([0, cell*(i)])
+      }
+      return arr
+    }
+    /* 随机轨道运动，即沿着环形轨道移动滑块
+      @param —— el指的是沿轨道运动的滑块
+      @param —— n 指的是运动的圈数
+      @i —— i 指的是数组下标，当转完一圈时，还要令其值为0
+    */
+    function moveSlider (el, pathArr, n, speed = 300, i=0, len = pathArr.length , random = Math.floor(Math.random() * len)) {
+      setTimeout(() => {
+        if (n > 0) {
+          if (n === 1) len = random
+          if ( len <= i) {
+            i = n === 1 ? len : 0
+            n--
+            speed += (300 - speed) / n
+          }
+          el.style.transform = `translate(${pathArr[i][0]}px, ${pathArr[i][1]}px)`
+          moveSlider(el, pathArr, n, speed, ++i, len, random)
+        } else {
+          flag = false
+          // 还可以放置回调函数
+        }
+      }, speed)
+    }
+  }
+</script>
+</html>

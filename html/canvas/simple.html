@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Demo</title>
+<style>
+  #canvas{
+    background: #000;
+  }
+  a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .cssPosition{
+    width: 200px;
+    height: 200px;
+  }
+  a::before{
+    content: '';
+    position: absolute;
+    background: #61cc73;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    transition: ease-in-out 0.2s;
+  }
+  .cssPosition:hover a:before{
+    position: absolute;
+    background: #61cc73;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: 100%;
+    height: 100%;
+    transition: ease-in-out 0.2s;
+  }
+  .loading-wrap {
+    margin: 20px;
+    width: 65px;
+  }
+  .left {
+    width: 30px;
+    height:30px;
+    display: inline-block;
+    border-radius: 15px;
+    background-color: red;
+    animation: leftMove 2s infinite;
+    position: relative;
+  }
+  .right {
+    width: 30px;
+    height:30px;
+    display: inline-block;
+    border-radius: 15px;
+    background-color: blue;
+    animation: rightMove 2s infinite;
+    position: relative;
+  }
+  @keyframes leftMove {
+    0%, 100%{
+      transform: translateX(0) scale(1);
+      z-index: 1;
+      background-color: red;
+    }
+    25% {
+      background-color: rgba(255, 255, 255, 0.5);
+      transform: translateX(50%) scale(0.7);
+      z-index: 2;
+    }
+    50% {
+      transform: translateX(100%) scale(1);
+      z-index: 1;
+      background-color: red;
+    }
+    75% {
+      transform: translateX(50%) scale(1);
+      z-index: 1;
+      background-color: red;
+    }
+  }
+  @keyframes rightMove {
+    0%, 100%{
+      transform: translateX(0) scale(1);
+      background-color: blue;
+      z-index: 1;
+    }
+    25%{
+      background-color: blue;
+      transform: translateX(-50%) scale(1);
+      z-index: 1;
+    }
+    50% {
+      background-color: blue;
+      transform: translateX(-100%) scale(1);
+      z-index: 1;
+    }
+    75% {
+      background-color: rgba(255, 255, 255, 0.5);
+      transform: translateX(-50%) scale(0.7);
+      z-index: 2;
+    }
+  }
+  
+</style>
+</head>
+<body>
+  <div class="cssPosition"><a>123456</a></div>
+  <canvas id="canvas"></canvas>
+  <div class="loading-wrap">
+    <div class="left"></div>
+    <div class="right"></div>
+  </div>
+</body>
+<script type= "text/javascript">
+  const cans = document.querySelector('#canvas')
+  const paint = cans.getContext('2d')
+  var HEIGHT = cans.height = document.documentElement.clientHeight,
+  WIDTH = cans.width = document.documentElement.clientWidth,
+  para = {
+    num: 100,
+    color: false,
+    r: 1,
+    o: 0.1,
+    a: 1
+  },
+  color, color2, roundArr = []
+  window.onmousemove = function (event) {
+    var mouseX = event.clientX
+    var mouseY = event.clientY
+    roundArr.push({
+      mouseX,
+      mouseY,
+      r: para.r,
+      o: 1
+    })
+  }
+  // 判断参数中是否设置了color，如果设置了color就使用该值
+  // 如果color为false，那么使用随机的颜色
+  if (para.color) {
+    color2 = para.color
+  } else {
+    color = Math.random() * 360
+  }
+
+  function animate () {
+    if (!para.color) {
+      color += 0.1
+      color2 = `hsl(${color},100%,80%)`
+    }
+    paint.clearRect(0, 0, WIDTH, HEIGHT)
+    for (let i = 0; i < roundArr.length; i++) {
+      paint.fillStyle = color2
+      if (i % 2) {
+        paint.beginPath()
+        paint.arc(roundArr[i].mouseX, roundArr[i].mouseY, roundArr[i].r, 0, 2 * Math.PI, true)
+        paint.closePath()
+        paint.fill()
+      }
+      roundArr[i].r += para.r
+      roundArr[i].o -= para.o
+      if (roundArr[i].o <= 0) {
+        roundArr.splice(i, 1)
+        i--
+      }
+    }
+    window.requestAnimationFrame(animate)
+  }
+  animate()
+ /*  const paint = cans.getContext('2d')
+  var para = {
+    num: 100,
+    color: false,
+    r: 0.9,
+    o: 0.09,
+    a: 1
+  }, color, color2, roundArr = []
+  var mouseX, mouseY
+  window.onmousemove = function (event) {
+    mouseX = event.clientX
+    mouseY = event.clientY
+    roundArr.push({
+      mouseX,
+      mouseY,
+      r: para.r,
+      o: 1
+    })
+    // 判断参数中是否设置了 color，如果设置了 color，就使用该值、
+        // 如果参数中的 color 为 false，那么就使用随机的颜色
+        if (para.color) {
+            color2 = para.color;
+        } else {
+            color = Math.random() * 360;
+        }
+  }
+  function animate () {
+    if (!para.color) {
+      color += 0.1
+      color2 = `hsl(${color},100%,80%)`
+    }
+    paint.clearRect(0, 0, 400, 400)
+    for (let i = 0; i < roundArr.length; i++) {
+      paint.fillStyle = color2
+      paint.beginPath()
+      paint.arc(roundArr[i].mouseX, roundArr[i].mouseY, roundArr[i].r, 0, 2 * Math.PI, true)
+      paint.closePath()
+      paint.fill()
+      roundArr[i].r += para.r
+      roundArr[i].o += para.o
+      if (roundArr.o <= 0) {
+        roundArr.splice(i, 1)
+        i--
+      } 
+    }
+    window.requestAnimationFrame(animate);
+  } */
+  /* var stars = []
+  var rnd
+  addStar()
+  drawStar()
+  setInterval(drawStar, 30)
+  liuxing()
+  function liuxing () {
+    var time = Math.round(Math.random() * 3000 + 30)
+    setTimeout(function () {
+      rnd = Math.ceil(Math.random() * stars.length)
+      liuxing()
+    }, time)
+  }
+  function addStar () {
+    var num = 300
+    for (let i = 0; i < num; i++) {
+      var obj = {
+        x: Math.round(Math.random() * 400),
+        y: Math.round(Math.random() * 400),
+        alpha: Math.random(),
+        ra: Math.random() * 0.05,
+        r: Math.round(Math.random() * 5 + 1),
+        vx: Math.random()*0.2 - 0.1,
+        vy: Math.random()*0.2 - 0.1,
+      }
+      stars.push(obj)
+    }
+  } 
+  function drawStar () {
+    // // paint.fillStyle = "rgba(255, 255, 255, 0.3)"
+     paint.clearRect(0, 0, 400, 400)
+    // context.fillStyle = "rgba(0, 0, 0, 0.8)"   // 背景色黑色
+    // context.fillRect(0, 0, 400, 400) // 绘制矩形
+    for (let i = 0; i < stars.length; i++) {
+      let star = stars[i]
+      star.alpha += star.ra
+      if (i === rnd) {
+        star.vx = -1
+        star.y = 80
+        paint.beginPath()
+        paint.strokeStyle = "rgba(255, 255, 255," + star.alpha + ")"
+        paint.lineWidth = star.r
+      }
+      if (star.alpha <= 0) {
+        star.alpha = 0
+        star.ra = -star.ra
+        star.vx = Math.random() * 0.2 - 0.1 // 其值就是0.1
+        star.vy = Math.random() * 0.2 - 0.1
+      } else if (star.alpha > 1) {
+        star.alpha = 1
+        star.ra = -star.ra
+      }
+      star.x += star.vx
+      if (star.x >= 400) {
+        star.x = 0
+        star.vx = Math.random() * 0.2 - 0.1 // 其值就是0.1
+        star.vy = Math.random() * 0.2 - 0.1
+      } else if (star.x < 0) {
+        star.x = 400
+      } 
+      star.y += star.vy
+      if (star.y >= 400) {
+        star.y = 0
+        star.vx = Math.random() * 0.2 - 0.1 // 其值就是0.1
+        star.vy = Math.random() * 0.2 - 0.1
+      } else if (star.y < 0) {
+        star.y = 400
+      }
+      paint.beginPath()
+      let bg = paint.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.r) 
+      bg.addColorStop(0, "rgba(255, 255, 255," + star.alpha + ")")
+      bg.addColorStop(1, "rgba(255, 255, 255, 0)")
+      paint.arc(star.x, star.y, star.r, 0, 2 * Math.PI, true)
+      paint.closePath()
+      paint.fillStyle = bg
+      paint.fill()
+    }
+  } */
+ /*  paint.beginPath()
+  paint.arc(100, 100, 50, 0, Math.PI * 1.5, false)
+  paint.closePath()
+  paint.fillStyle = 'rgba(255, 255, 255)'
+  paint.fill() */
+  /* paint.beginPath()
+  paint.arc(100, 100, 50, 0, Math.PI * 1.5, false)
+  paint.closePath()
+  paint.fillStyle = 'rgba(255, 255, 255)'
+  paint.fill()
+  paint.moveTo(200, 200)
+  paint.lineTo(100, 100)
+  paint.strokeStyle = '#fff';
+  paint.lineCap = "round"
+  paint.lineWidth = 20
+  paint.stroke()
+  paint.beginPath()
+  paint.fillStyle = "#fff"
+  paint.fillRect(20, 20, 30, 30)
+  paint.strokeStyle = "red"
+  paint.lineWidth = 2
+  paint.strokeRect(120, 20, 50, 80)
+  paint.clearRect(0, 0, 400, 400)
+  paint.beginPath()
+  paint.arc(100, 100, 50, 0, Math.PI * 2, false)
+  paint.shadowBlur = 20
+  paint.fillStyle = "green"
+  paint.shadowColor = "gray"
+  paint.fill()
+  paint.clearRect(0, 0, 400, 400)
+  paint.beginPath()
+  var grd = paint.createLinearGradient(100, 100, 200, 200);
+  grd.addColorStop(0, 'blue');
+  grd.addColorStop(0.5, 'green');
+  grd.addColorStop(0.9, 'red');
+  grd.addColorStop(1, 'yellow');
+  paint.fillStyle = grd
+  paint.fillRect(100, 100, 200, 200)
+  paint.clearRect(0, 0, 400, 400)
+  paint.strokeStyle = "red"
+  paint.strokeRect(10, 10, 40, 50)
+  paint.scale(1, 2)
+  paint.strokeRect(10, 10, 40, 50)
+  paint.scale(2,2)
+  paint.strokeRect(10, 10, 40, 50)
+  paint.scale(2,2)
+  paint.clearRect(0, 0, 400, 400)
+  paint.scale(0.25, 0.125)
+  paint.strokeStyle = "red"
+  paint.translate(200, 200)
+  paint.rotate(45*Math.PI/180)
+  paint.strokeRect(0, 0, 100, 100)
+  paint.clearRect(0, 0, 400, 400) */
+  /* paint.beginPath()
+  paint.arc(100, 100, 50, 0, Math.PI * 2, false)
+      var bg = paint.createRadialGradient(100, 100, 0, 100, 100, 10)
+      bg.addColorStop(0, "rgba(255, 255, 255, 0.6)")
+      bg.addColorStop(1, "rgba(255, 255, 255, 0)")
+      paint.fillStyle = bg
+      paint.strokeStyle = "rgba(255, 255, 255, 0.6)"
+      paint.fillRect(100, 100, 200, 200)
+      paint.arc = (100, 100, 10, 0, Math.PI * 2, false)
+      paint.fill()
+      paint.closePath() */
+  
+</script>
+</html>
