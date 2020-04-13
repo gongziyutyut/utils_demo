@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+    .app-container{
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .theme-page{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .theme-page:target {
+      z-index: 2;
+    }
+    .theme-page:not(:target) {
+      z-index: 0;
+    }
+    .theme-container{
+      list-style: none;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      width: 80px;
+      height: 16px;
+      z-index: 3;
+    }
+    .theme-container>.theme-item{
+      list-style: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      margin-right: 10px;
+      float: left;
+    }
+    .theme-container>.theme-item>a{
+      width: 100%;
+      height: 100%;
+      content: "";
+      display: inline-block;
+    }
+    .theme1,  #page1{
+      background: linear-gradient(to bottom, #000000 0%, #5788fe 100%);
+    }
+    .theme2, #page2 {
+      background: linear-gradient(to bottom, #aa4b6b 0%, #6b6b83 50%,#3b8d99 100%);
+    }
+    .theme3, #page3 {
+      background: linear-gradient(to bottom, #f12711 0%, #f5af19 100%);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div id="page1" class="theme-page"></div>
+    <div id="page2" class="theme-page"></div>
+    <div id="page3" class="theme-page"></div>
+    <ul class="theme-container">
+      <li class="theme-item theme1"><a href="#page1"></a></li>
+      <li class="theme-item theme2"><a href="#page2"></a></li>
+      <li class="theme-item theme3"><a href="#page3"></a></li>
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Demo</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  html {
+    width: 100%;
+    height: 100%;
+  }
+  .carousel{
+    width: 960px;
+    height: 320px;
+    margin: 50px auto;
+    position: relative;
+    display: flex;
+  }
+  .carousel-item{
+    height: 100%;
+    width: 0;
+    transition: width 1s;
+  }
+  .carousel .carousel-item:first-child {
+    width: 100%;
+    background: linear-gradient(to bottom, #000000 0%, #5788fe 100%);
+
+  }
+  .page2 {
+    background: linear-gradient(to bottom, #aa4b6b 0%, #6b6b83 50%,#3b8d99 100%);
+  }
+  .page3 {
+    background: linear-gradient(to bottom, #f12711 0%, #f5af19 100%);
+  }
+  .carousel .carousel-item:target {
+    width: 100%;
+  }
+  .carousel .carousel-item:not(:target) {
+    width: 0;
+  }
+  .switch-container {
+    width: 85px;
+    height: 16px;
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .switch-item {
+    list-style: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    margin-right: 10px;
+    float: left;
+    border: 1px solid #fff;
+    background-color: transparent;
+  }
+  .switch-item>a {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+  }
+  .switch-item:hover {
+    background-color: #fff;
+  }
+</style>
+</head>
+<body>
+  <div class="carousel">
+    <div id="carousel1" class="carousel-item page1"></div>
+    <div id="carousel2" class="carousel-item page2"></div>
+    <div id="carousel3" class="carousel-item page3"></div>
+    <ul class="switch-container">
+      <li class="switch-item"><a href="#carousel1"></a></li>
+      <li class="switch-item"><a href="#carousel2"></a></li>
+      <li class="switch-item"><a href="#carousel3"></a></li>
+    </ul>
+  </div>
+</body>
+<script type= "text/javascript">
+
+</script>
+</html>
