@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./jsonP.js"></script>
+    <script>
+        window.onload = function () {
+            jsonp('http://localhost:3000/ge', {}, 'aaa').then(res=> {
+                console.log('bbbbbb')
+            })
+            
+
+            
+        }
+        function aaa () {
+            console.log('执行aaa');
+        }
+    </script>
+</body>
+</html>

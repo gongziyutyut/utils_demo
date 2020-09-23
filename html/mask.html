@@ -17,16 +17,141 @@
       height: 100%;
       background-color: #fff;
     }
+    .box {
+    width: 200px;
+    height: 200px;
+    padding: 20px;
+    margin: 20px;
+    background: red;
+    border: 20px solid black;
+    box-sizing: border-box;
+}
+.section {
+    width:100%;
+    padding-bottom: 100%;
+    background: #333;
+}
   </style>
 </head>
 <body>
   <div id="app">
     111111111
+    <div class="box"></div>
+    <div class="section"></div>
   </div>
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <script src="../js/mask.js"></script>
 <script>
   $('#app').maskLoading()
+
+
+
+function Promise (executor) {
+  const self = this
+  self.status = 'pending'
+  self.value = undefined
+  self.reason = undefined
+  self.onsuccess = []
+  self.onfail = []
+  function resolve(value) {
+    if (self.status === 'pending') {
+      self.status = 'fulfilled'
+      self.value = value
+      self.onsuccess.forEach(fn => fn())
+    }
+  }
+  
+  function reject (reason) {
+    if (self.status === 'pending') {
+      self.status = 'rejected'
+      self.reason = reason
+      self.onfail.forEach(fn => fn())
+    }
+  }
+  // executor(resolve, reject)
+  try {
+    executor(resolve, reject)
+  } catch(err) {
+    console.log('11111')
+    reject(err)
+  }
+
+}
+
+Promise.prototype.then = function (onfulfilled, onrejected) {
+  const self = this
+  onfulfilled = typeof onfulfilled === 'function' ? onfulfilled : val => val
+  onrejected = typeof onrejected === 'function' ? onrejected : err => {throw err}
+
+  let p = new Promise((resolve, reject) => {
+    if (self.status === 'resolved') {
+      let x = onfulfilled(self.value)
+      resolvePromise(p, x, resolve, reject)
+    }
+
+    if (self.status === 'rejected') {
+      let x = onrejected(self.reason)
+      resolvePromise(p, x, resolve, reject)
+    }
+
+    // 考虑到promise是异步操作，需要多加一个状态
+    if (self.status === 'pending') {
+      self.onsuccess.push(() => {
+        let x = onfulfilled(self.value)
+        resolvePromise(p, x, resolve, reject)
+      })
+      self.onfail.push(() => {
+        let x = onrejected(self.reason)
+        resolvePromise(p, x, resolve, reject)
+      })
+    }
+  })
+  return p
+} 
+
+function  resolvePromise (promiseAgain, x, resolve, reject) {
+  if (promiseAgain === x) {
+    return reject(new TypeError('循环调用'))
+  }
+  if (x !== null && (typeof x === 'object' || typeof x === 'function'))  {
+    try {
+      let then = x.then
+      if (typeof then === 'function') {
+        then.call(x,  y => {
+          resolvePromise(promiseAgain, y, resolve, reject)
+        }, err => reject(err))
+      } else {
+        resolve(x)
+      }
+    } catch (err) {
+      reject(err)
+    }
+  } else {
+    resolve(x)
+  }
+}
+
+let promise = new Promise((resolve, reject) => {
+  setTimeout(function () {
+      resolve('success data')
+  }, 2000)
+  // throw new Error("一个错误");
+})
+
+let flatArr = [1, [2, 3], [[3, 4, 5], [6, 7], [{}]]]
+
+function fn (arr) {
+  return arr.reduce((prev, next) => {
+    return prev.concat(next instanceof Array ? fn(next) : next)
+  }, [])
+}
+
+console.log(fn(flatArr))
+/* promise.then(res => {
+  console.log("success:", res);
+}, err => {
+  console.log("error:", err);
+}) */
 </script>
 </html>

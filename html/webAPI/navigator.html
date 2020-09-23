@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    gdiksandfsc';
+    <p>vjfdvinmlkfv</p>
+    dfndkdnvjnfl
+    <button id="btn">粘贴</button>
+  </div>
+  <script>
+    document.querySelector('#btn').addEventListener('click', async() => {
+      text = await navigator.clipboard.readText()
+      console.log(text);
+    })
+  </script>
+</body>
+</html>

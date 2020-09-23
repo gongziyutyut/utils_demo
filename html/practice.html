@@ -3,9 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <style>
+    .left, .right {
+        float: left;
+    }
+    .left {
+        width: 100%;
+        background-color: aqua;
+    }
+    .right {
+        width: 200px;
+        margin-left: -200px;
+        background-color: blue;
+    }
+    .text {
+        display: inline-block;
+        text-decoration: none;
+        width: 100px;
+        height: 32px;
+        line-height: 32px;
+        position: relative;
+        text-align: center;
+    }
+    .text:before {
+        position: absolute;
+        background-color: blue;
+        left: 0;
+        bottom: -10px;
+        content: '';
+        display: inline-block;
+        width: 100%;
+        height: 4px;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: scaleX(0);
+        transform-origin: right center;
+    }
+    .box:hover .text:before{
+        transform-origin: left center;
+        transform: scaleX(1);
+    }
+    
+
+  </style>
 </head>
 <body>
   <div>11111111111111111</div>
+  <div>
+      <div class="left">左</div>
+      <div class="right">右</div>
+  </div>
+  <div class="box">
+      <a href="javascript:;" class="text">点击</a>
+  </div>
 <script type="text/javascript">
 	if(navigator.appName == 'Microsoft Internet Explorer' && navigator.appVersion.match(/6./i)=='6.'){ 
 	alert('IE 6'); 
@@ -19,6 +68,28 @@ else if(navigator.appName == 'Microsoft Internet Explorer' && navigator.appVersi
 else if(navigator.appName == 'Microsoft Internet Explorer' && navigator.appVersion.match(/9./i)=='9.'){ 
 	alert('IE 9'); 
 }
+
+let arr = [1, 2]
+
+
+function swap (arr, i, j) {
+    [arr[i], arr[j]] = [arr[j], arr[i]]
+}
+let res = []
+function fullPermutation(arr, start, end) {
+    if (start === end) {
+        res.push(arr)
+    } else {
+        for (let i = start; i < end; i++) {
+			swap(arr, i, start)
+            fullPermutation(arr, start+1, end)
+            swap(arr, i, start)
+        }
+    }
+}
+fullPermutation(arr, 0, arr.length)
+console.log(res);
+
 </script>
 </body>
 </html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .wrapper {
+      height: 200px;
+    }
+    .left, .right {
+      float: left;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="left">
+      消息发送者：
+      <input class="postMessage" type="text" id="msg">
+      <button id = "btn">发送</button>
+    </div>
+    <div class="right">
+      消息接收者：
+      <p class="receiver"></p>
+    </div>
+  </div>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+  <script>
+   
+    $(document).ready(
+      () => {
+        const channelName = 'BROADCAST_EVENT'
+        const bc = new BroadcastChannel(channelName)
+        
+        $('#btn').on('click', postMsgFn)
+        function postMsgFn(event) {
+          const msg = $('#msg').val()
+          bc.postMessage(msg)
+        }
+        bc.addEventListener('message', function(event) {
+            const output = document.getElementsByClassName('receiver')[0];
+            output.innerText = event.data;
+        });
+      }
+    )
+
+  </script>
+</body>
+</html>
