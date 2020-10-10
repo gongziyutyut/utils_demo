@@ -22,7 +22,7 @@ let arr = NINI_SQUARED.map((item) => {
 
   let arrrr = ['1111']
   console.log(arrrr.join(',')); */
-  function swap (arr, i, j) {
+  /* function swap (arr, i, j) {
     [arr[i], arr[j]] = [arr[j], arr[i]]
   }
   function handleArr (arr) {
@@ -39,5 +39,5 @@ let arr = NINI_SQUARED.map((item) => {
     return arr.concat(pushArr)
   }
 
-  console.log(handleArr([0, 1, 0, 3, 12]));
+  console.log(handleArr([0, 1, 0, 3, 12])); */
   

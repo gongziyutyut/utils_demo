@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .con {
+      position: relative;
+      width: 300px;
+      height: 400px;
+      filter: contrast(15) hue-rotate(0);
+      background-color:#000;
+      animation: hueRotate 10s infinite;
+    }
+    .child{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      border-radius: 50px;
+      background-color: #00ff6f;
+      transform: translate(-50%, -50%);
+    }
+    @keyframes hueRotate {
+      100% {
+        filter: contrast(15) hue-rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="con">
+    <div class="child" id="keyFn"></div>
+  </div>
+  <script src="../algorithm/list.js"></script>
+  <script>
+    var btn =  document.querySelector('#keyFn')
+    document.addEventListener('keydown', function (event) {
+      console.log(event);
+    })
+
+    /**
+   *
+   * @param {*} arr —— 相当于地图板
+   * @return {*} 
+   */
+    const arr1 = [
+      ['A','B','C','E'],
+      ['S','F','C','S'],
+      ['A','D','E','E']
+    ]
+    let res = lookFor(arr1, 'ABCB')
+    console.log(res);
+    function lookFor (arr, word) {
+      if (!word) return true
+      if (!arr.length) return false
+      const height = arr.length
+      const width = arr[0].length
+      const find  = (row, col, n) => {
+        const conditions = [
+          row >= height,
+          row < 0,
+          col >= width,
+          col < 0
+        ]
+        if (conditions.some(item => item)) return false
+        let temp = arr[row][col]
+        if (temp !== word[n]) return false
+        if (n === word.length - 1) return true
+        arr[row][col] = null
+        let res = find(row+1, col, n+1) ||
+                  find(row-1, col, n+1) ||
+                  find(row, col+1, n+1) ||
+                  find(row, col-1, n+1) 
+        arr[row][col] = temp          
+        return res
+      }
+      for (let i = 0; i < height; i++) {
+        for (let j = 0; j < width; j++) {
+          if (find(i, j, 0)) {
+            return true
+          }
+        }
+      }
+      return false
+    }
+
+    const arr2 = [1, 2, 3]
+    permutation(arr2)
+    function permutation (nums) {
+      const res = []
+      const used = []
+      const recursive = (path) => {
+        if (path.length === nums.length) {
+          res.push(path.slice())
+          return
+        }
+        for (const num of nums) {
+          if (used[num]) {
+            continue
+          } 
+          path.push(num)
+          used[num] = true
+          recursive(path)
+          used[num] = false
+          path.pop()
+        }
+      }
+      recursive([])
+      console.log(res);
+      return res
+    }
+  </script>
+</body>
+</html>
